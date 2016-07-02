@@ -51,6 +51,7 @@ class CI
     Docker.options[:write_timeout] = 1 * 60 * 60 # 1 hour   
         
     def create_image
+        require 'fileutils'
         Dir.chdir("#{$WORKSPACE}") do
             @image = Docker::Image.build_from_dir('.')
         end
