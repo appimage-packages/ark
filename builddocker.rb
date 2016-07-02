@@ -104,7 +104,7 @@ appimage = Recipe.new
 appimage.name = "ark"
 appimage.version = '16.04.1'
 #TO_DO do some LD magic here? kdev-tools cmake parser?
-appimage.depends = 'bzip2-devel liblzma-devel'
+appimage.depends = 'bzip2-devel liblzma-devel wayland-devel'
 appimage.frameworks = 'karchive kconfig kwidgetsaddons kcompletion kcoreaddons kauth kcodecs kdoctools kguiaddons ki18n kconfigwidgets kwindowsystem kcrash kdbusaddons kitemviews kiconthemes kjobwidgets kservice solid sonnet ktextwidgets attica kglobalaccel kxmlgui kbookmarks kio knotifications kparts kpty kwayland'
 appimage.apps = [Recipe::App.new("#{appimage.name}")]
 File.write('Recipe', appimage.render)
