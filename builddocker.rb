@@ -51,7 +51,7 @@ class CI
     Docker.options[:write_timeout] = 1 * 60 * 60 # 1 hour   
         
     def create_image
-        @image = Docker::Image.build_from_dir('.')
+        @image = Docker::Image.build_from_dir('/var/lib/jenkins/workspace/appimage-ark/')
     end
         
     def create_container
