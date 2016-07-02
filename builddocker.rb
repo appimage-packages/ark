@@ -52,7 +52,7 @@ class CI
         
     def create_image
         require 'fileutils'
-        Dir.chdir("/var/lib/jenkins/workspace/appimage-#{appimage.name}") do
+        Dir.chdir("/var/lib/jenkins/workspace/appimage-ark") do
             @image = Docker::Image.build_from_dir('.')
         end
     end
