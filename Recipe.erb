@@ -23,7 +23,7 @@ wget -q https://github.com/probonopd/AppImages/raw/master/functions.sh -O ./func
 . ./functions.sh
 rm -f functions.sh
 
-yum -y install gettext bzip2-devel liblzma-devel
+yum -y install gettext perl-URI.noarch <%= depends %>
 
 QTVERSION=5.7.0
 QVERSION_SHORT=5.7
@@ -61,10 +61,10 @@ export LD_LIBRARY_PATH=/usr/lib64/:/usr/lib:/app/usr/lib:$QTDIR/lib/:/opt/python
 ln -sf /usr/share/pkgconfig /usr/lib/pkgconfig
 
 # Get project
-if [ ! -d /ark ] ; then
-   git clone --depth 1 http://anongit.kde.org/ark.git /ark
+if [ ! -d /<%= name %> ] ; then
+   git clone --depth 1 http://anongit.kde.org/<%= name %>.git /<%= name %>
 fi
-cd /ark/
+cd /<%= name %>/
 git_pull_rebase_helper
 
 # Prepare the install location
@@ -155,7 +155,7 @@ build_framework extra-cmake-modules
 #Cmake is too old on centos6.... so does this mean no sound for KDE apps? blech.
 #build_framework phonon -DPHONON_BUILD_PHONON4QT5=ON
 
-for FRAMEWORK in extra-cmake-modules karchive kconfig kwidgetsaddons kcompletion kcoreaddons kauth kcodecs kdoctools kguiaddons ki18n kconfigwidgets kwindowsystem kcrash kdbusaddons kitemviews kiconthemes kjobwidgets kservice solid sonnet ktextwidgets attica kglobalaccel kxmlgui kbookmarks kio knotifications kparts kpty kwayland; do
+for FRAMEWORK in <%= frameworks %>; do
   build_framework $FRAMEWORK
 done
 build_framework breeze-icons -DBINARY_ICONS_RESOURCE=1
@@ -164,10 +164,10 @@ build_framework breeze-icons -DBINARY_ICONS_RESOURCE=1
     
 cd ..
 
-# Build ark
-mkdir -p /ark_build
-cd /ark_build
-cmake ../ark \
+# Build <%= name %>
+mkdir -p /<%= name %>_build
+cd /<%= name %>_build
+cmake ../<%= name %> \
     -DCMAKE_INSTALL_PREFIX:PATH=/app/usr/ \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -DPACKAGERS_BUILD=1 \
@@ -258,18 +258,18 @@ export APPIMAGE_STARTUP_QT_PLUGIN_PATH=\$QT_PLUGIN_PATH
 export APPIMAGE_STARTUP_XDG_DATA_DIRS=\$XDG_DATA_DIRS
 export APPIMAGE_STARTUP_PATH=\$PATH
 
-ark \$@
+<%= name %> \$@
 EOF
 chmod +x AppRun
 
-cp ./usr/share/applications/org.kde.ark.desktop ark.desktop
-cp usr/share/icons/hicolor/256x256/apps/ark.png .
+cp ./usr/share/applications/org.kde.<%= name %>.desktop <%= name %>.desktop
+cp usr/share/icons/hicolor/256x256/apps/<%= name %>.png .
 
 #TO-DO this will need some text manipulation in ruby to get this var.
 APP=Ark
-LOWERAPP=ark
+LOWERAPP=<%= name %>
 
-get_desktopintegration ark
+get_desktopintegration <%= name %>
 
 cd  /
 
