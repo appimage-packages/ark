@@ -352,4 +352,5 @@ rm -rf /out/*
 #TO-DO this will need some text manipulation in ruby to get this var.
 /AppImageKit/AppImageAssistant.AppDir/package Ark.AppDir/ /out/$APP-$VERSION-$ARCH.AppImage
 
-curl --progress-bar --upload-file - https://transfer.sh/$APP-$VERSION-$ARCH.AppImage /out/$APP-$VERSION-$ARCH.AppImage # Upload to transfer.io for testing
+#Skip this. Cannot get it to work and I would rather the file local for now.
+#curl --progress-bar --upload-file - https://transfer.sh/$APP-$VERSION-$ARCH.AppImage /out/$APP-$VERSION-$ARCH.AppImage # Upload to transfer.io for testing

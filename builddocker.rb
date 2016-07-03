@@ -23,14 +23,13 @@
 require 'docker'
 require 'logger'
 require 'logger/colors'
-require 'erb'
 
 class CI     
     class Build        
         def initialize()
             @image = ''
             @c = ''
-           
+            @binds = ['/home/scarlett/appimage-packaging:/out']
         end
     end
     def init_logging
@@ -63,7 +62,8 @@ class CI
         init_logging
         @c = Docker::Container.create(
             Image: @image.id, 
-            Cmd: @cmd
+            Cmd: @cmd,
+            Volumes: @binds
         ) 
         @log.info 'creating debug thread'
         Thread.new do
@@ -76,67 +76,7 @@ class CI
         ret = @c.wait
         status_code = ret.fetch('StatusCode', 1)
         raise "Bad return #{ret}" if status_code != 0
-        c.stop!
-        c
-            #puts @c.streaming_logs(stdout: true)               
+        @c.stop!   
     end   
 end
-class Recipe
-    class App
-        def initialize(name)
-            @name = name                
-        end
-    end
-    
-    attr_accessor :name
-    attr_accessor :depends
-    attr_accessor :dependencies
-    attr_accessor :version
-    attr_accessor :summary
-    attr_accessor :description
-    attr_accessor :frameworks
-    attr_accessor :external
-    attr_accessor :apps
-        
-    def render
-        ERB.new(File.read('Recipe.erb')).result(binding)
-    end
-end
 
-builder = CI.new
-builder.run = [CI::Build.new()]
-builder.cmd = %w[bash -ex Recipe]
-appimage = Recipe.new
-appimage.name = "ark"
-appimage.version = '16.04.1'
-#TO_DO do some LD magic here? kdev-tools cmake parser?
-appimage.depends = 'bzip2-devel liblzma-devel xz-devel'
-#Needed to add ability to pull in external builds that are simply to old
-#in Centos.
-appimage.external = 'libarchive,https://github.com/libarchive/libarchive,true,""'
-appimage.frameworks = 'karchive kconfig kwidgetsaddons kcompletion kcoreaddons kauth kcodecs kdoctools kguiaddons ki18n kconfigwidgets kwindowsystem kcrash kdbusaddons kitemviews kiconthemes kjobwidgets kservice solid sonnet ktextwidgets attica kglobalaccel kxmlgui kbookmarks kio knotifications kparts kpty'
-appimage.apps = [Recipe::App.new("#{appimage.name}")]
-File.write('Recipe', appimage.render)
-
-#attempt to get deps
-# require 'fileutils'
-# system("pwd")
-# system("ls -l")
-# if not File.exists?("#{appimage.name}")
-#     system("git clone --depth 1 http://anongit.kde.org/#{appimage.name} #{appimage.name}")
-# end
-# FileUtils.cp('cmake-dependencies.py', "#{appimage.name}")
-# Dir.chdir("#{appimage.name}") do
-#     system("cmake \
-#     -DCMAKE_INSTALL_PREFIX:PATH=/app/usr/ \
-#     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-#     -DPACKAGERS_BUILD=1 \
-#     -DBUILD_TESTING=FALSE"
-#     )
-#     system("make -j8")
-#     appimage.dependencies {} = system("python3 cmake-dependencies.py")
-# end
-# p appimage.dependencies
-
-builder.create_image
-builder.create_container
