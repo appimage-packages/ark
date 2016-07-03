@@ -80,6 +80,61 @@ ln -s lib lib64
 
 # start building the deps
 
+function build_external
+{ (
+    # errors fatal
+    echo "Compiler version:" $(g++ --version)
+    set -e
+
+    SRC=/external
+    BUILD=/external/build
+    PREFIX=/app/usr/
+
+    # framework
+    EXTERNAL=$1
+
+    # clone if not there
+    mkdir -p $SRC
+    cd $SRC
+    if ( test -d $EXTERNAL )
+    then
+        echo "$EXTERNAL already cloned"
+        cd $EXTERNAL
+        git reset --hard
+        git pull --rebase
+        cd ..
+    else
+        git clone $EXTERNAL_ADDRESS
+    fi
+
+    # create build dir
+    mkdir -p $BUILD/$EXTERNAL
+
+    # go there
+    cd $BUILD/$EXTERNAL
+
+    # cmake it
+    if ( $EXTERNAL_CMAKE )
+    then
+        cmake $SRC/$EXTERNAL -DCMAKE_INSTALL_PREFIX:PATH=$PREFIX $2
+    else
+        $EXTERNAL_CONFIGURE
+    fi
+    # make
+    make -j8
+
+    # install
+    make install
+) }
+
+IN=<%= external %> 
+IFS=',' read -a external_options <<< $IN
+EXTERNAL="${external_options[0]}"
+EXTERNAL_ADDRESS="${external_options[1]}"
+EXTERNAL_CMAKE="${external_options[2]}"
+EXTERNAL_CONFIGURE="${external_options[3]}"
+build_external $EXTERNAL
+
 function build_framework
 { (
     # errors fatal
@@ -262,8 +317,8 @@ export APPIMAGE_STARTUP_PATH=\$PATH
 EOF
 chmod +x AppRun
 
-cp ./usr/share/applications/org.kde.<%= name %>.desktop <%= name %>.desktop
-cp usr/share/icons/hicolor/256x256/apps/<%= name %>.png .
+cp usr/share/applications/org.kde.<%= name %>.desktop <%= name %>.desktop
+cp usr/share/icons/hicolor/128x128/apps/<%= name %>.png .
 
 #TO-DO this will need some text manipulation in ruby to get this var.
 APP=Ark
@@ -294,6 +349,7 @@ ARCH=$(arch)
 
 mkdir -p /out
 rm -rf /out/*
-/AppImageKit/AppImageAssistant.AppDir/package KDevelop.AppDir/ /out/$APP-$VERSION-$ARCH.AppImage
+#TO-DO this will need some text manipulation in ruby to get this var.
+/AppImageKit/AppImageAssistant.AppDir/package Ark.AppDir/ /out/$APP-$VERSION-$ARCH.AppImage
 
 curl --progress-bar --upload-file - https://transfer.sh/$APP-$VERSION-$ARCH.AppImage /out/$APP-$VERSION-$ARCH.AppImage # Upload to transfer.io for testing

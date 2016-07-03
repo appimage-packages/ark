@@ -52,9 +52,11 @@ class CI
         
     def create_image
         require 'fileutils'
-        Dir.chdir("/var/lib/jenkins/workspace/appimage-ark") do
-            @image = Docker::Image.build_from_dir('.')
-        end
+        #ONLY for Jenkins. Comment for local.
+#         Dir.chdir("/var/lib/jenkins/workspace/appimage-ark") do
+             @image = Docker::Image.build_from_dir('.')
+#         end
+        
     end
         
     def create_container
@@ -93,6 +95,7 @@ class Recipe
     attr_accessor :summary
     attr_accessor :description
     attr_accessor :frameworks
+    attr_accessor :external
     attr_accessor :apps
         
     def render
@@ -107,8 +110,11 @@ appimage = Recipe.new
 appimage.name = "ark"
 appimage.version = '16.04.1'
 #TO_DO do some LD magic here? kdev-tools cmake parser?
-appimage.depends = 'bzip2-devel liblzma-devel wayland-devel'
-appimage.frameworks = 'karchive kconfig kwidgetsaddons kcompletion kcoreaddons kauth kcodecs kdoctools kguiaddons ki18n kconfigwidgets kwindowsystem kcrash kdbusaddons kitemviews kiconthemes kjobwidgets kservice solid sonnet ktextwidgets attica kglobalaccel kxmlgui kbookmarks kio knotifications kparts kpty kwayland'
+appimage.depends = 'bzip2-devel liblzma-devel xz-devel'
+#Needed to add ability to pull in external builds that are simply to old
+#in Centos.
+appimage.external = 'libarchive,https://github.com/libarchive/libarchive,true,""'
+appimage.frameworks = 'karchive kconfig kwidgetsaddons kcompletion kcoreaddons kauth kcodecs kdoctools kguiaddons ki18n kconfigwidgets kwindowsystem kcrash kdbusaddons kitemviews kiconthemes kjobwidgets kservice solid sonnet ktextwidgets attica kglobalaccel kxmlgui kbookmarks kio knotifications kparts kpty'
 appimage.apps = [Recipe::App.new("#{appimage.name}")]
 File.write('Recipe', appimage.render)
 
