@@ -26,6 +26,5 @@ require_relative 'builddocker.rb'
 
 builder = CI.new
 builder.run = [CI::Build.new()]
-builder.cmd = %w[bash -ex Recipe]
-builder.create_image
+builder.cmd = %w[bash -ex /in/Recipe]
 builder.create_container

@@ -47,7 +47,7 @@ appimage = Recipe.new
 appimage.name = "ark"
 appimage.version = '16.04.1'
 #TO_DO do some LD magic here? kdev-tools cmake parser?
-appimage.depends = 'bzip2-devel liblzma-devel xz-devel'
+appimage.depends = 'bzip2-devel liblzma-devel xz-devel media-player-info.noarch'
 #Needed to add ability to pull in external builds that are simply to old
 #in Centos.
 appimage.external = 'libarchive,https://github.com/libarchive/libarchive,true,""'

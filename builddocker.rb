@@ -29,7 +29,7 @@ class CI
         def initialize()
             @image = ''
             @c = ''
-            @binds = ['/home/scarlett/appimage-packaging:/out']
+            @binds = ''
         end
     end
     def init_logging
@@ -49,22 +49,17 @@ class CI
     Docker.options[:read_timeout] = 1 * 60 * 60 # 1 hour
     Docker.options[:write_timeout] = 1 * 60 * 60 # 1 hour   
         
-    def create_image
-        require 'fileutils'
-        #ONLY for Jenkins. Comment for local.
-#         Dir.chdir("/var/lib/jenkins/workspace/appimage-ark") do
-             @image = Docker::Image.build_from_dir('.')
-#         end
-        
-    end
-        
-    def create_container
+   def create_container
         init_logging
         @c = Docker::Container.create(
-            Image: @image.id, 
-            Cmd: @cmd,
-            Volumes: @binds
-        ) 
+            'Image' => 'scummos/centos6.8-qt5.7', 
+            'Cmd' => @cmd,
+            'Volumes' => {
+              '/in' => {},
+              '/out' => {}
+            }
+        )
+        p @c.info
         @log.info 'creating debug thread'
         Thread.new do
             @c.attach do |_stream, chunk|
@@ -72,7 +67,8 @@ class CI
                 STDOUT.flush
             end
         end
-        @c.start
+        @c.start('Binds' => ["/home/scarlett/appimage-packaging/ark-packaging:/in",
+                             "/home/scarlett/appimage-packaging/ark-packaging:/out"])       
         ret = @c.wait
         status_code = ret.fetch('StatusCode', 1)
         raise "Bad return #{ret}" if status_code != 0
