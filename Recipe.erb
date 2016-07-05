@@ -321,7 +321,7 @@ cp usr/share/applications/org.kde.<%= name %>.desktop <%= name %>.desktop
 cp usr/share/icons/hicolor/128x128/apps/<%= name %>.png .
 
 #TO-DO this will need some text manipulation in ruby to get this var.
-APP=Ark
+APP=<%= proper_name %>
 LOWERAPP=<%= name %>
 
 get_desktopintegration <%= name %>
@@ -347,10 +347,8 @@ mv ../app/* $APP.AppDir/
 VERSION="git"
 ARCH=$(arch)
 
-mkdir -p /out
-rm -rf /out/*
 #TO-DO this will need some text manipulation in ruby to get this var.
-/AppImageKit/AppImageAssistant.AppDir/package Ark.AppDir/ /out/$APP-$VERSION-$ARCH.AppImage
+/AppImageKit/AppImageAssistant.AppDir/package <%= proper_name %>.AppDir/ /out/$APP-$VERSION-$ARCH.AppImage
 
 #Skip this. Cannot get it to work and I would rather the file local for now.
 #curl --progress-bar --upload-file - https://transfer.sh/$APP-$VERSION-$ARCH.AppImage /out/$APP-$VERSION-$ARCH.AppImage # Upload to transfer.io for testing

@@ -29,6 +29,7 @@ class Recipe
     end
     
     attr_accessor :name
+    attr_accessor :proper_name
     attr_accessor :depends
     attr_accessor :dependencies
     attr_accessor :version
@@ -45,6 +46,7 @@ end
 
 appimage = Recipe.new
 appimage.name = "ark"
+appimage.proper_name = appimage.name.capitalize
 appimage.version = '16.04.1'
 #TO_DO do some LD magic here? kdev-tools cmake parser?
 appimage.depends = 'bzip2-devel liblzma-devel xz-devel media-player-info.noarch'

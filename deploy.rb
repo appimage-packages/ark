@@ -22,9 +22,10 @@
 
 require_relative 'generate_recipe.rb'
 require_relative 'builddocker.rb'
-
+require 'fileutils'
 
 builder = CI.new
 builder.run = [CI::Build.new()]
 builder.cmd = %w[bash -ex /in/Recipe]
 builder.create_container
+FileUtils.cp('out/*', '/var/lib/jenkins/userContent/')
