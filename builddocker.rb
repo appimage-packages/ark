@@ -67,8 +67,8 @@ class CI
                 STDOUT.flush
             end
         end
-        @c.start('Binds' => ["/home/scarlett/appimage-packaging/ark-packaging:/in",
-                             "/home/scarlett/appimage-packaging/ark-packaging:/out"])       
+        @c.start('Binds' => ["/var/lib/jenkins/workspace/appimage-ark:/in",
+                             "/var/lib/jenkins/workspace/appimage-ark:/out"])       
         ret = @c.wait
         status_code = ret.fetch('StatusCode', 1)
         raise "Bad return #{ret}" if status_code != 0
