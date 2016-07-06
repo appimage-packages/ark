@@ -29,7 +29,11 @@ appimage.name = "ark"
 cmake_deps = ''
 appimage.dependencies = []
 if not File.exists?("#{appimage.name}")
-    system("git clone --depth 1 http://anongit.kde.org/#{appimage.name} #{appimage.name}")
+    system("git clone http://anongit.kde.org/#{appimage.name}
+ #{appimage.name}")
+    Dir.chdir("#{appimage.name}") do
+    system("git submodule init")
+    system("git submodule update") 
 end
 FileUtils.cp('cmake-dependencies.py', "#{appimage.name}")
 Dir.chdir("#{appimage.name}") do

@@ -28,4 +28,4 @@ builder = CI.new
 builder.run = [CI::Build.new()]
 builder.cmd = %w[bash -ex /in/Recipe]
 builder.create_container
-FileUtils.cp('out/*', '/var/lib/jenkins/userContent/')
+FileUtils.cp('out/Ark-git-x86_64.AppImage', '/var/lib/jenkins/userContent/')
