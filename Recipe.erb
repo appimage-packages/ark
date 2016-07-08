@@ -350,5 +350,6 @@ ARCH=$(arch)
 #TO-DO this will need some text manipulation in ruby to get this var.
 /AppImageKit/AppImageAssistant.AppDir/package <%= proper_name %>.AppDir/ /out/$APP-$VERSION-$ARCH.AppImage
 
+chown jenkins.jenkins /out/$APP-$VERSION-$ARCH.AppImage
 #Skip this. Cannot get it to work and I would rather the file local for now.
 #curl --progress-bar --upload-file - https://transfer.sh/$APP-$VERSION-$ARCH.AppImage /out/$APP-$VERSION-$ARCH.AppImage # Upload to transfer.io for testing
