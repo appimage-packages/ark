@@ -52,7 +52,7 @@ class CI
    def create_container
         init_logging
         @c = Docker::Container.create(
-            'Image' => 'scummos/centos6.8-qt5.7', 
+            'Image' => 'sgclark/centos6.8-qt5.7', 
             'Cmd' => @cmd,
             'Volumes' => {
               '/in' => {},

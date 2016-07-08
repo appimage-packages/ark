@@ -24,6 +24,9 @@ require_relative 'generate_recipe.rb'
 require_relative 'builddocker.rb'
 require 'fileutils'
 
+if File.exist?('out/Ark-git-x86_64.AppImage')
+    FileUtils.rm('out/Ark-git-x86_64.AppImage')
+end
 builder = CI.new
 builder.run = [CI::Build.new()]
 builder.cmd = %w[bash -ex /in/Recipe]
