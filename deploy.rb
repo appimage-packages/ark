@@ -31,4 +31,4 @@ builder = CI.new
 builder.run = [CI::Build.new()]
 builder.cmd = %w[bash -ex /in/Recipe]
 builder.create_container
-system( chown jenkins.jenkins 'out/Ark-git-x86_64.AppImage' )
+system( 'chown jenkins.jenkins out/Ark-git-x86_64.AppImage' )
