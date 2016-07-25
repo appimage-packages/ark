@@ -1,5 +1,6 @@
 #!/bin/bash
-
+rm -rf /app || true # Clean up from previous runs
+rm /out/* || true
 # Based on http://files.svenbrauch.de/kdevelop-linux/kdevelop-recipe-centos6.sh
 
 # On Amazon AWS start an Amazon Linux instance (I used c4.2xlarge) and run:
@@ -127,7 +128,7 @@ function build_external
     make install
 ) }
 
-IN=<%= external %> 
+IN=<%= external %>
 IFS=',' read -a external_options <<< $IN
 EXTERNAL="${external_options[0]}"
 EXTERNAL_ADDRESS="${external_options[1]}"
@@ -161,11 +162,11 @@ function build_framework
     else
         git clone git://anongit.kde.org/$FRAMEWORK
     fi
-    
+
     if [ "$FRAMEWORK" = "knotifications" ]; then
 	cd $FRAMEWORK
         echo "patching knotifications"
-	git reset --hard        
+	git reset --hard
 	cat > no_phonon.patch << EOF
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index b97425f..8f15f08 100644
@@ -174,7 +175,7 @@ index b97425f..8f15f08 100644
 @@ -59,10 +59,10 @@ find_package(KF5Config ${KF5_DEP_VERSION} REQUIRED)
  find_package(KF5Codecs ${KF5_DEP_VERSION} REQUIRED)
  find_package(KF5CoreAddons ${KF5_DEP_VERSION} REQUIRED)
- 
+
 -find_package(Phonon4Qt5 4.6.60 REQUIRED NO_MODULE)
 +find_package(Phonon4Qt5 4.6.60 NO_MODULE)
  set_package_properties(Phonon4Qt5 PROPERTIES
@@ -216,7 +217,7 @@ done
 build_framework breeze-icons -DBINARY_ICONS_RESOURCE=1
 
 
-    
+
 cd ..
 
 # Build <%= name %>
@@ -288,7 +289,7 @@ cp -v /appimage-exec-wrapper/exec.so exec_wrapper.so
 cat > AppRun << EOF
 #!/bin/bash
 
-DIR="\`dirname \"\$0\"\`" 
+DIR="\`dirname \"\$0\"\`"
 DIR="\`( cd \"\$DIR\" && pwd )\`"
 export APPDIR=\$DIR
 
