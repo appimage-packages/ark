@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-# 
+#
 # Copyright (C) 2016 Scarlett Clark <sgclark@kde.org>
 # Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
 #
@@ -24,11 +24,7 @@ require_relative 'generate_recipe.rb'
 require_relative 'builddocker.rb'
 require 'fileutils'
 
-if File.exist?('out/Ark-git-x86_64.AppImage')
-    FileUtils.rm('out/Ark-git-x86_64.AppImage')
-end
 builder = CI.new
 builder.run = [CI::Build.new()]
 builder.cmd = %w[bash -ex /in/Recipe]
 builder.create_container
-system( 'chown jenkins.jenkins out/Ark-git-x86_64.AppImage' )
