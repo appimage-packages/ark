@@ -1,4 +1,5 @@
 name: ark
+packages:
   - build-essential
   - libgl1-mesa-dev
   - software-properties-common
