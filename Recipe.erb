@@ -35,8 +35,7 @@ mkdir -p ./usr/bin; mv /app/usr/bin/*<%= name %>* $_
 cp /app/usr/share/applications/*<%= name %>*.desktop <%= name %>.desktop
 mkdir -p ./usr/share/applications/; mv /app/usr/share/applications/*<%= name %>*.desktop $_
 cp /app/usr/share/icons/hicolor/scalable/apps/*<%= name %>* .
-mkdir -p ./usr/share/icons/hicolor/scalable/apps; mv /app/usr/share/icons/hicolor/scalable/apps/*<%= name %>* $_
-mv /app/usr/share/icons/hicolor/* ./usr/share/icons/hicolor/
+mkdir -p ./usr/share/icons/hicolor; mv /app/usr/share/icons/hicolor $_
 mv 48x48/apps/ark.png ./usr/share/icons/hicolor/
 #KDE files
 mkdir -p ./usr/lib/x86_64-linux-gnu/plugins; mv /app/usr/lib/x86_64-linux-gnu/plugins/*<%= name %>* $_
