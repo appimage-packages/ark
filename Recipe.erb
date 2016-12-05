@@ -40,10 +40,13 @@ mkdir -p ./usr/share/icons/hicolor; mv /app/usr/share/icons/hicolor $_
 #KDE files
 mkdir -p ./usr/lib/x86_64-linux-gnu/plugins; mv /app/usr/lib/x86_64-linux-gnu/plugins/*<%= name %>* $_
 mv  /app/usr/lib/x86_64-linux-gnu/plugins/kf5 ./usr/lib/x86_64-linux-gnu/plugins/
-mkdir -p ./usr/share/kservices5; mv /app/usr/share/kservices5/*<%= name %>* $_
-mkdir -p ./usr/share/kxmlgui5/<%= name %>; mv /app/usr/share/kxmlgui5/<%= name %>/*<%= name %>* $_
+mkdir -p ./usr/share/kservices5; mv /app/usr/share/kservices5/* $_
+mkdir -p ./usr/share/kservicetypes5; mv /app/usr/share/kservicetypes5/* $_
+mkdir -p ./usr/share/kxmlgui5; mv /app/usr/share/kxmlgui5/* $_
 mkdir -p ./usr/share/metainfo; mv  /app/usr/share/metainfo/*<%= name %>* $_
-
+mkdir -p ./etc/xdg; mv /app/usr/etc/xdg/* $_
+mkdir -p ./usr/share/config.kcfg; mv /app/usr/share/config.kcfg/* $_
+mkdir -p ./usr/share/mime/packages; mv /app/usr/share/mime/packages/kerfuffle.xml $_
 ../linuxdeployqt-1-x86_64.AppImage ./usr/bin/<%= name %> -verbose=3 -bundle-non-qt-libs -qmldir=/opt/usr/qml
 
 # For some reason qmlscanner did not catch Dialog, manually copy it in.
