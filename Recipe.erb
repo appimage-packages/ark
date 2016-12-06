@@ -32,12 +32,11 @@ chmod a+x linuxdeployqt-1-x86_64.AppImage
 
 cd /<%= name %>.AppDir
 mkdir -p ./usr/bin; mv /app/usr/bin/* $_
+mv /app/usr/lib/libexec/kf5/* ./usr/bin/
 cp /app/usr/share/applications/*<%= name %>*.desktop <%= name %>.desktop
 mkdir -p ./usr/share/applications/; mv /app/usr/share/applications/*<%= name %>*.desktop $_
 cp /app/usr/share/icons/hicolor/scalable/apps/*<%= name %>* .
 mkdir -p ./usr/share/icons/hicolor; mv /app/usr/share/icons/hicolor $_
-
-mv usr/lib/libexec/kf5/* /app/usr/bin/
 
 cd /
 if [ ! -d appimage-exec-wrapper ]; then
@@ -65,7 +64,7 @@ export APPIMAGE_ORIGINAL_QT_PLUGIN_PATH=\$QT_PLUGIN_PATH
 export APPIMAGE_ORIGINAL_XDG_DATA_DIRS=\$XDG_DATA_DIRS
 export APPIMAGE_ORIGINAL_PATH=\$PATH
 
-export QML2_IMPORT_PATH=\$DIR/usr/local/Qt-5.7.0/qml:\$DIR/usr/lib/qml:\$QML2_IMPORT_PATH
+export QML2_IMPORT_PATH=\$DIR/usr/lib/qml:\$QML2_IMPORT_PATH
 export QT_PLUGIN_PATH=\$DIR/usr/lib/qt5/plugins/
 export LD_LIBRARY_PATH=\$QT_PLUGIN_PATH:\$DIR/usr/lib/:\$LD_LIBRARY_PATH
 export XDG_DATA_DIRS=\$DIR/usr/share/:\$XDG_DATA_DIRS
