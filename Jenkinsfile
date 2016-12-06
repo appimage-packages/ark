@@ -33,7 +33,7 @@ node('linux') {
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, \
             extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'appimage-template'],  [$class: 'IgnoreNotifyCommit']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/appimage-packages/appimage-template']]])
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, \
-            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '/app/src/ark']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://anongit.kde.org/ark']]])
+            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '.']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://anongit.kde.org/ark']]])
        }
         stage( 'Setup' ) {
             sh 'bundle install'
