@@ -80,7 +80,8 @@ packages:
   #app specifc
   - lrzip
   - unrar-free
-  - p7zip
+  - p7zip-full
+  - rar
 frameworks:
   build_kf5: true
   frameworks:
