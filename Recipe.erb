@@ -31,7 +31,7 @@ wget https://github.com/probonopd/linuxdeployqt/releases/download/1/linuxdeployq
 chmod a+x linuxdeployqt-1-x86_64.AppImage
 
 cd /<%= name %>.AppDir
-mkdir -p ./usr/bin; mv /app/usr/bin/*<%= name %>* $_
+mkdir -p ./usr/bin; mv /app/usr/bin/* $_
 cp /app/usr/share/applications/*<%= name %>*.desktop <%= name %>.desktop
 mkdir -p ./usr/share/applications/; mv /app/usr/share/applications/*<%= name %>*.desktop $_
 cp /app/usr/share/icons/hicolor/scalable/apps/*<%= name %>* .
@@ -48,9 +48,6 @@ mkdir -p ./usr/share/config.kcfg; mv /app/usr/share/config.kcfg/* $_
 mkdir -p ./usr/share/mime/packages; mv /app/usr/share/mime/packages/* $_
 
 ../linuxdeployqt-1-x86_64.AppImage ./usr/bin/<%= name %> -verbose=3 -bundle-non-qt-libs -qmldir=/opt/usr/qml
-
-# For some reason qmlscanner did not catch Dialog, manually copy it in.
-#mkdir -p ./usr/bin/qml/QtQuick/Dialogs; cp -rfv /opt/usr/qml/QtQuick/Dialogs/* $_
 
 glibc_needed
 patch_usr
