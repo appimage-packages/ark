@@ -37,6 +37,51 @@ mkdir -p ./usr/share/applications/; mv /app/usr/share/applications/*<%= name %>*
 cp /app/usr/share/icons/hicolor/scalable/apps/*<%= name %>* .
 mkdir -p ./usr/share/icons/hicolor; mv /app/usr/share/icons/hicolor $_
 
+mv usr/lib/libexec/kf5/* /app/usr/bin/
+
+cd /
+if [ ! -d appimage-exec-wrapper ]; then
+    git clone git://anongit.kde.org/scratch/brauch/appimage-exec-wrapper
+fi;
+cd /appimage-exec-wrapper/
+make clean
+make
+
+cd /app
+cp -v /appimage-exec-wrapper/exec.so exec_wrapper.so
+
+cat > AppRun << EOF
+#!/bin/bash
+
+DIR="\`dirname \"\$0\"\`"
+DIR="\`( cd \"\$DIR\" && pwd )\`"
+export APPDIR=\$DIR
+
+export LD_PRELOAD=\$DIR/exec_wrapper.so
+
+export APPIMAGE_ORIGINAL_QML2_IMPORT_PATH=\$QML2_IMPORT_PATH
+export APPIMAGE_ORIGINAL_LD_LIBRARY_PATH=\$LD_LIBRARY_PATH
+export APPIMAGE_ORIGINAL_QT_PLUGIN_PATH=\$QT_PLUGIN_PATH
+export APPIMAGE_ORIGINAL_XDG_DATA_DIRS=\$XDG_DATA_DIRS
+export APPIMAGE_ORIGINAL_PATH=\$PATH
+
+export QML2_IMPORT_PATH=\$DIR/usr/local/Qt-5.7.0/qml:\$DIR/usr/lib/qml:\$QML2_IMPORT_PATH
+export QT_PLUGIN_PATH=\$DIR/usr/lib/qt5/plugins/
+export LD_LIBRARY_PATH=\$QT_PLUGIN_PATH:\$DIR/usr/lib/:\$LD_LIBRARY_PATH
+export XDG_DATA_DIRS=\$DIR/usr/share/:\$XDG_DATA_DIRS
+export PATH=\$DIR/usr/bin:\$PATH
+export KDE_FORK_SLAVES=1
+
+export APPIMAGE_STARTUP_QML2_IMPORT_PATH=\$QML2_IMPORT_PATH
+export APPIMAGE_STARTUP_LD_LIBRARY_PATH=\$LD_LIBRARY_PATH
+export APPIMAGE_STARTUP_QT_PLUGIN_PATH=\$QT_PLUGIN_PATH
+export APPIMAGE_STARTUP_XDG_DATA_DIRS=\$XDG_DATA_DIRS
+export APPIMAGE_STARTUP_PATH=\$PATH
+
+<%= name %> \$@
+EOF
+chmod +x AppRun
+
 #KDE files
 mkdir -p ./usr/lib/; mv /app/usr/lib/* $_
 mkdir -p ./usr/share/kservices5; mv /app/usr/share/kservices5/* $_
