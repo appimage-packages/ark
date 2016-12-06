@@ -27,37 +27,20 @@ rm -f functions.sh
 
 mkdir /<%= name %>.AppDir/
 
+cd /app/src
+git clone git://anongit.kde.org/scratch/brauch/appimage-exec-wrapper
+cd /appimage-exec-wrapper/
+make clean
+make
+cp -v exec.so /<%= name %>.AppDir/exec_wrapper.so
+
+cd /
 wget https://github.com/probonopd/linuxdeployqt/releases/download/1/linuxdeployqt-1-x86_64.AppImage
 chmod a+x linuxdeployqt-1-x86_64.AppImage
 
 cd /<%= name %>.AppDir
-mkdir -p ./usr/bin; mv /app/usr/bin/* $_
-cp /app/usr/share/applications/*<%= name %>*.desktop <%= name %>.desktop
-mkdir -p ./usr/share/applications/; mv /app/usr/share/applications/*<%= name %>*.desktop $_
-cp /app/usr/share/icons/hicolor/scalable/apps/*<%= name %>* .
-mkdir -p ./usr/share/icons/hicolor; mv /app/usr/share/icons/hicolor $_
 
-#KDE files
-mkdir -p ./usr/lib/; mv /app/usr/lib/* $_
-mkdir -p ./usr/share/kservices5; mv /app/usr/share/kservices5/* $_
-mkdir -p ./usr/share/kservicetypes5; mv /app/usr/share/kservicetypes5/* $_
-mkdir -p ./usr/share/kxmlgui5; mv /app/usr/share/kxmlgui5/* $_
-mkdir -p ./usr/share/metainfo; mv  /app/usr/share/metainfo/* $_
-mkdir -p ./etc/xdg; mv /app/etc/xdg/* $_
-mkdir -p ./usr/share/config.kcfg; mv /app/usr/share/config.kcfg/* $_
-mkdir -p ./usr/share/mime/packages; mv /app/usr/share/mime/packages/* $_
-
-cd /
-if [ ! -d appimage-exec-wrapper ]; then
-    git clone git://anongit.kde.org/scratch/brauch/appimage-exec-wrapper
-fi;
-cd /appimage-exec-wrapper/
-make clean
-make
-
-cd /app
-cp -v /appimage-exec-wrapper/exec.so exec_wrapper.so
-
+# Create AppRun
 cat > AppRun << EOF
 #!/bin/bash
 
@@ -90,17 +73,50 @@ export APPIMAGE_STARTUP_PATH=\$PATH
 EOF
 chmod +x AppRun
 
+mkdir -p ./usr/bin; mv /app/usr/bin/* $_
+cp /app/usr/share/applications/*<%= name %>*.desktop <%= name %>.desktop
+mkdir -p ./usr/share/applications/; mv /app/usr/share/applications/*<%= name %>*.desktop $_
+cp /app/usr/share/icons/hicolor/scalable/apps/*<%= name %>* .
+mkdir -p ./usr/share/icons/hicolor; mv /app/usr/share/icons/hicolor $_
+
+#KDE files
+mkdir -p ./usr/lib/; mv /app/usr/lib/* $_
+mkdir -p ./usr/share/kservices5; mv /app/usr/share/kservices5/* $_
+mkdir -p ./usr/share/kservicetypes5; mv /app/usr/share/kservicetypes5/* $_
+mkdir -p ./usr/share/kxmlgui5; mv /app/usr/share/kxmlgui5/* $_
+mkdir -p ./usr/share/metainfo; mv  /app/usr/share/metainfo/* $_
+mkdir -p ./etc/xdg; mv /app/etc/xdg/* $_
+mkdir -p ./usr/share/config.kcfg; mv /app/usr/share/config.kcfg/* $_
+mkdir -p ./usr/share/mime/packages; mv /app/usr/share/mime/packages/* $_
+
 ../linuxdeployqt-1-x86_64.AppImage ./usr/bin/<%= name %> -verbose=3 -bundle-non-qt-libs -qmldir=/opt/usr/qml
 
 glibc_needed
 patch_usr
 delete_blacklisted
-get_apprun
 get_desktopintegration <%= name %>
+
+#Cleanup
+# We don't bundle the developer stuff
+rm -rf usr/include || true
+rm -rf usr/lib/cmake || true
+rm -rf usr/lib/pkgconfig || true
+rm -rf usr/share/ECM/ || true
+rm -rf usr/share/gettext || true
+rm -rf usr/share/pkgconfig || true
+rm -rf usr/mkspecs/ || true
+rm -rf usr/gettext-* || true
+rm -rf usr/autoconf-* || true
+rm -rf usr/automake-* || true
+rm -rf usr/libtool-* || true
+find . -name '*.a' -exec rm {} \;
+
+strip -g $(find usr) || true
 
 # Until this repo stabilizes we will use the appimage.
 # Build AppImageKit
 
+cd /
 wget "https://github.com/probonopd/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
 chmod a+x appimagetool-x86_64.AppImage
 
