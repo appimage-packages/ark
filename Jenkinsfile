@@ -30,8 +30,8 @@ node('linux') {
 
         stage( 'Checkout' ) {
             checkout scm
-            checkout poll: false, scm[$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, \
-            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'appimage-template'],  [$class: 'IgnoreNotifyCommit']], submoduleCfg: [], \
+            checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], \
+            browser: [$class: 'GithubWeb', repoUrl: ''], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], \
             userRemoteConfigs: [[url: 'https://github.com/appimage-packages/appimage-template']]]
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, \
             extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ark']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://anongit.kde.org/ark']]])
