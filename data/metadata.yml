@@ -138,3 +138,11 @@ dependencies:
       source:
         type: gz
         url: 'http://www.libarchive.org/downloads/libarchive-3.1.2.tar.gz'
+  - polkit-qt:
+      build:
+        buildsystem: cmake
+        buildoptions: ''
+      depname: polkit-qt-1
+      source:
+        type: git
+        url: 'https://anongit.kde.org/polkit-qt-1.git'
