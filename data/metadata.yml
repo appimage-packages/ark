@@ -115,6 +115,7 @@ frameworks:
     - kwallet
     - kparts
     - kpty
+    - polkit-qt-1
 type: git
 url: http://anongit.kde.org/ark
 buildsystem: cmake
@@ -138,11 +139,11 @@ dependencies:
       source:
         type: gz
         url: 'http://www.libarchive.org/downloads/libarchive-3.1.2.tar.gz'
-  - polkit-qt:
+  - rar:
       build:
-        buildsystem: cmake
+        buildsystem: make
         buildoptions: ''
-      depname: polkit-qt-1
+      depname: rarlinux-x64-5.4.0
       source:
-        type: git
-        url: 'https://anongit.kde.org/polkit-qt-1.git'
+        type: gz
+        url: 'http://www.rarlab.com/rar/rarlinux-x64-5.4.0.tar.gz'
