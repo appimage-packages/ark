@@ -89,6 +89,7 @@ frameworks:
     - ki18n
     - kitemviews
     - kconfig
+    - polkit-qt-1
     - kauth
     - kcodecs
     - karchive
@@ -105,17 +106,22 @@ frameworks:
     - sonnet
     - ktextwidgets
     - kglobalaccel
+    - attica
     - kxmlgui
     - solid
     - kbookmarks
     - kjobwidgets
-    - kio
     - phonon
+    - phonon-gstreamer
     - knotifications
+    - gpgmepp
     - kwallet
-    - kparts
-    - kpty
-    - polkit-qt-1
+    - kio
+    - knewstuff
+    - breeze-icons
+    - kactivities
+    - plasma-framework
+    - kitemmodels
 type: git
 url: http://anongit.kde.org/ark
 buildsystem: cmake
