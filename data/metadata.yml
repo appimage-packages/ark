@@ -77,10 +77,12 @@ packages:
   - flex
   - bison
   - libxslt1-dev
+  - libutempter-dev
   #app specifc
   - lrzip
   - unrar-free
   - p7zip-full
+  - python2.7
 frameworks:
   build_kf5: true
   frameworks:
