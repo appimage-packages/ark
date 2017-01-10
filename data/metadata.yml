@@ -85,6 +85,7 @@ packages:
   - python2.7
   - zip
   - unzip
+  - unar
 frameworks:
   build_kf5: true
   frameworks:
@@ -153,8 +154,8 @@ dependencies:
         url: 'http://www.libarchive.org/downloads/libarchive-3.1.2.tar.gz'
   - rar:
       build:
-        buildsystem: make
-        buildoptions: ''
+        buildsystem: custom
+        buildoptions: 'make && make install'
       depname: rar
       source:
         type: gz
