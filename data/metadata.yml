@@ -122,6 +122,8 @@ frameworks:
     - kactivities
     - plasma-framework
     - kitemmodels
+    - kparts
+    - kpty
 type: git
 url: http://anongit.kde.org/ark
 buildsystem: cmake
