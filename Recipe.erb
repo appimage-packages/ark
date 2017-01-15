@@ -27,7 +27,8 @@ rm -f functions.sh
 
 mkdir /<%= name %>.AppDir/
 
-
+cd /in/<%= name %>
+qmlimportscanner -rootPath . | grep Qt | sed -e 's/"name": "//' | sed -e 's/",//'
 
 cd /
 wget https://github.com/probonopd/linuxdeployqt/releases/download/1/linuxdeployqt-1-x86_64.AppImage
@@ -47,19 +48,13 @@ cp -rfv /opt/usr/plugins/<%= name %> ./plugins || true
 #mkdir -p ./usr/lib/qml/
 mkdir -p ./usr/{share,bin,lib}
 mkdir ./etc
-rsync -aruxv --progress /opt/usr/plugins/ ./plugins/
+rsync -aruxv --progress /opt/usr/plugins/kf5/ ./plugins/
 rsync -aruxv --progress /opt/usr/share/ ./usr/share/
 rsync -aruxv --progress /opt/etc/ ./etc/
 rsync -aruxv --progress /opt/usr/qml/ ./qml
 cp /usr/lib/x86_64-linux-gnu/pulseaudio/*.so* ./usr/lib/
 
 cp /opt/usr/bin/gst* ./usr/bin/
-cp /usr/bin/unzip ./usr/bin/
-cp /usr/bin/zip ./usr/bin/
-cp /usr/bin/unar ./usr/bin/
-cp /usr/local/bin/rar ./usr/bin/
-cp /usr/local/bin/unrar ./usr/bin/
-
 mkdir ./lib
 rm -rfv /opt/usr/lib/gstreamer-1.0/include
 cp /opt/usr/lib/gstreamer-1.0/* ./lib/
@@ -76,6 +71,7 @@ mv /opt/usr/libexec/gstreamer-1.0/* ./usr/bin || true
 cp -rfv /opt/usr/lib/x86_64-linux-gnu/* /opt/usr/lib/
 unset LD_LIBRARY_PATH
 ../linuxdeployqt-1-x86_64.AppImage <%= name %> -verbose=3 -bundle-non-qt-libs -qmldir=/opt/usr/qml
+ls ./qml/
 patch_usr
 glibc_needed
 delete_blacklisted
@@ -99,6 +95,8 @@ rm -rf ./usr/share/man || true
 rm -rf ./usr/share/doc/ECM || true
 rm -rf ./usr/share/doc/libdbusmenu-qt5-doc || true
 rm -rf ./usr/share/gtk-doc || true
+#Huge.. see if we can function without it
+rm ./lib/libQt5WebEngineCore.so.5
 find . -name '*.a' -exec rm {} \;
 get_desktopintegration <%= name %>
 cd /app/src
@@ -137,7 +135,7 @@ wget "https://github.com/probonopd/AppImageKit/releases/download/knowngood/appim
 chmod a+x appimagetool-x86_64.AppImage
 
 ARCH=$(arch)
-DATE=$(date +"%m%d%Y")
+DATE=$(date +"%Y%m%d")
 
 APPIMAGEFILENAME="<%= name %>-git$DATE-$ARCH.AppImage"
 
