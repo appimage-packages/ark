@@ -125,6 +125,7 @@ frameworks:
     - knewstuff
     - breeze-icons
     - kactivities
+    - kdeclarative
     - plasma-framework
     - kitemmodels
     - kparts

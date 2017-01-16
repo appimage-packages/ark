@@ -28,7 +28,7 @@ rm -f functions.sh
 mkdir /<%= name %>.AppDir/
 
 cd /in/<%= name %>
-qmlimportscanner -rootPath . | grep Qt | sed -e 's/"name": "//' | sed -e 's/",//'
+qmlimportscanner -rootPath /in/<%= name %> | grep Qt | sed -e 's/"name": "//' | sed -e 's/",//'
 
 cd /
 wget https://github.com/probonopd/linuxdeployqt/releases/download/1/linuxdeployqt-1-x86_64.AppImage
