@@ -48,10 +48,11 @@ cp -rfv /opt/usr/plugins/<%= name %> ./plugins || true
 #mkdir -p ./usr/lib/qml/
 mkdir -p ./usr/{share,bin,lib}
 mkdir ./etc
-rsync -aruxv --progress /opt/usr/plugins/kf5/ ./plugins/
+rsync -aruxv --progress /opt/usr/plugins/ ./plugins/
 rsync -aruxv --progress /opt/usr/share/ ./usr/share/
 rsync -aruxv --progress /opt/etc/ ./etc/
 rsync -aruxv --progress /opt/usr/qml/ ./qml
+ls ./qml/
 cp /usr/lib/x86_64-linux-gnu/pulseaudio/*.so* ./usr/lib/
 
 cp /opt/usr/bin/gst* ./usr/bin/
@@ -139,4 +140,4 @@ DATE=$(date +"%Y%m%d")
 
 APPIMAGEFILENAME="<%= name %>-git$DATE-$ARCH.AppImage"
 
-./appimagetool-x86_64.AppImage /<%= name %>.AppDir /appimage/$APPIMAGEFILENAME
+./appimagetool-x86_64.AppImage -u -v /<%= name %>.AppDir /appimage/$APPIMAGEFILENAME
