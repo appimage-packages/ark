@@ -73,10 +73,10 @@ dependencies:
         autoreconf: true
         insource: false
         buildoptions: ''
-      depname: libarchive-3.1.2
+      depname: libarchive-3.2.0
       source:
         type: gz
-        url: 'http://www.libarchive.org/downloads/libarchive-3.1.2.tar.gz'
+        url: 'http://www.libarchive.org/downloads/libarchive-3.2.0.tar.gz'
   - rar:
       build:
         buildsystem: custom
