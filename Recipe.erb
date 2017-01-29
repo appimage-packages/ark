@@ -27,9 +27,6 @@ rm -f functions.sh
 
 mkdir /<%= name %>.AppDir/
 
-cd /in/<%= name %>
-qmlimportscanner -rootPath /in/<%= name %> | grep Qt | sed -e 's/"name": "//' | sed -e 's/",//'
-
 cd /
 wget https://github.com/probonopd/linuxdeployqt/releases/download/1/linuxdeployqt-1-x86_64.AppImage
 chmod a+x linuxdeployqt-1-x86_64.AppImage
@@ -44,7 +41,6 @@ cp /opt/usr/share/icons/hicolor/48x48/apps/*<%= name %>* .
 
 #All the plugins do not seem to be getting in. Manual copy.
 mkdir -p ./plugins; cp -rfv /opt/usr/lib/qt5/plugins/phonon4qt5_backend $_
-cp -rfv /opt/usr/plugins/<%= name %> ./plugins || true
 #mkdir -p ./usr/lib/qml/
 mkdir -p ./usr/{share,bin,lib}
 mkdir ./etc
@@ -52,7 +48,6 @@ rsync -aruxv --progress /opt/usr/plugins/ ./plugins/
 rsync -aruxv --progress /opt/usr/share/ ./usr/share/
 rsync -aruxv --progress /opt/etc/ ./etc/
 rsync -aruxv --progress /opt/usr/qml/ ./qml
-ls ./qml/
 cp /usr/lib/x86_64-linux-gnu/pulseaudio/*.so* ./usr/lib/
 
 cp /opt/usr/bin/gst* ./usr/bin/
@@ -96,8 +91,8 @@ rm -rf ./usr/share/man || true
 rm -rf ./usr/share/doc/ECM || true
 rm -rf ./usr/share/doc/libdbusmenu-qt5-doc || true
 rm -rf ./usr/share/gtk-doc || true
+rm -rf ./usr/share/wallpapers || true
 #Huge.. see if we can function without it
-rm ./lib/libQt5WebEngineCore.so.5
 find . -name '*.a' -exec rm {} \;
 get_desktopintegration <%= name %>
 cd /app/src
@@ -120,7 +115,7 @@ export QT_PLUGIN_PATH=\$HERE/plugins
 export PATH=\$HERE/usr/bin/:\$HERE/usr/sbin/:\$HERE/usr/games/:\$HERE/bin/:\$HERE/sbin/:$PATH
 export LD_LIBRARY_PATH=\$HERE/usr/lib/:\$HERE/usr/lib/x86_64-linux-gnu/:\$HERE/usr/lib64/:\$HERE/lib/:\$HERE/lib/x86_64-linux-gnu/:\$HERE/lib64/:$LD_LIBRARY_PATH
 export XDG_DATA_DIRS=\$HERE/usr/share:$HOME/.local/share:/usr/local/share/:/usr/share:$XDG_DATA_DIRS
-export XDG_DATA_HOME=$HOME/.local/share
+export XDG_DATA_HOME=\$HOME/.local/share
 export XDG_CONFIG_DIRS=\$HERE/etc/xdg:$XDG_CONFIG_DIRS
 export KDE_FORK_SLAVES=1
 export GST_PLUGIN_PATH=\$HERE/lib
@@ -140,7 +135,6 @@ DATE=$(date +"%Y%m%d")
 
 APPIMAGEFILENAME="<%= name %>-git$DATE-$ARCH.AppImage"
 
-
-./appimagetool-x86_64.AppImage -v -u "zsync|$APPIMAGEFILENAME" /<%= name %>.AppDir /appimage/$APPIMAGEFILENAME
-zsyncmake -o /appimage/$APPIMAGEFILENAME.zsync /appimage/$APPIMAGEFILENAME
+./appimagetool-x86_64.AppImage -v -s -u "zsync|$APPIMAGEFILENAME" /<%= name %>.AppDir /appimage/$APPIMAGEFILENAME
+zsyncmake -o /appimage/<%= name %>_latestversion.zsync /appimage/$APPIMAGEFILENAME
 ls /appimage/

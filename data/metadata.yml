@@ -5,7 +5,6 @@ packages:
   - lrzip
   - unrar-free
   - p7zip-full
-  - python2.7
   - zip
   - unzip
   - unar
