@@ -49,19 +49,18 @@ rsync -aruxv --progress /opt/usr/share/ ./usr/share/
 rsync -aruxv --progress /opt/etc/ ./etc/
 rsync -aruxv --progress /opt/usr/qml/ ./qml
 cp /usr/lib/x86_64-linux-gnu/pulseaudio/*.so* ./usr/lib/
-
+ls /opt/usr/lib/libg*
 cp /opt/usr/bin/gst* ./usr/bin/
 mkdir ./lib
 rm -rfv /opt/usr/lib/gstreamer-1.0/include
 cp /opt/usr/lib/gstreamer-1.0/* ./lib/
 cp /usr/lib/x86_64-linux-gnu/pulseaudio/*.so* ./lib/
-cp /opt/usr/lib/libgcrypt* ./lib/
 cp -rfv /usr/share/mime ./usr/share/
 cp /etc/mime.types ./etc/
 update-mime-database ./usr/share/mime
 
-strip -g $(find usr/bin) || true
-strip -g $(find usr/lib) || true
+strip -g $(find ./usr/bin) || true
+strip -g $(find ./usr/lib) || true
 
 mv /opt/usr/libexec/kf5/* ./usr/bin/ || true
 mv /opt/usr/libexec/gstreamer-1.0/* ./usr/bin || true
@@ -93,7 +92,7 @@ rm -rf ./usr/share/doc/ECM || true
 rm -rf ./usr/share/doc/libdbusmenu-qt5-doc || true
 rm -rf ./usr/share/gtk-doc || true
 rm -rf ./usr/share/wallpapers || true
-#Huge.. see if we can function without it
+ls /opt/usr/lib/libg*
 find . -name '*.a' -exec rm {} \;
 get_desktopintegration <%= name %>
 cd /app/src
