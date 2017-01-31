@@ -1,5 +1,5 @@
 # ark
-[![Build Status](http://aci.pangea.pub/job/ark-master-appimage/job/master/badge/icon)](http://aci.pangea.pub/job/ark-master-appimage/job/master/)
+[![Build Status](http://aci.pangea.pub/job/ark-master-appimage/badge/icon)](http://aci.pangea.pub/job/ark-master-appimage/)
 
 AppImage for KDE ark
 
