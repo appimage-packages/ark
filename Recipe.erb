@@ -140,5 +140,5 @@ export LD_LIBRARY_PATH=/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/
 gpg2 --import /root/.gnupg/appimage.key
 ./appimagetool-x86_64.AppImage -v -s -u "zsync|$APPIMAGEFILENAME" /<%= name %>.AppDir /appimage/$APPIMAGEFILENAME
 zsyncmake -o /appimage/<%= name %>_latestversion.zsync /appimage/$APPIMAGEFILENAME
-mv /*.asc /appimage/
 ls /appimage/
+ls 
