@@ -63,6 +63,7 @@ strip -g $(find ./usr/bin) || true
 strip -g $(find ./usr/lib) || true
 
 mv /opt/usr/libexec/kf5/* ./usr/bin/ || true
+mv /opt/usr/lib/x86_64-linux-gnu/libexec/kf5/* ./usr/bin/ || true
 mv /opt/usr/libexec/gstreamer-1.0/* ./usr/bin || true
 cp -rfv /opt/usr/lib/x86_64-linux-gnu/* /opt/usr/lib/
 unset LD_LIBRARY_PATH
@@ -141,4 +142,5 @@ gpg2 --import /root/.gnupg/appimage.key
 ./appimagetool-x86_64.AppImage -v -s -u "zsync|$APPIMAGEFILENAME" /<%= name %>.AppDir /appimage/$APPIMAGEFILENAME
 zsyncmake -o /appimage/<%= name %>_latestversion.zsync /appimage/$APPIMAGEFILENAME
 ls /appimage/
-ls 
+ls /tmp/
+mv /tmp/*.sig /appimage/
