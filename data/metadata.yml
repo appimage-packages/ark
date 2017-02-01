@@ -1,4 +1,5 @@
 name: ark
+binary: ark
 packages:
   - build-essential
   #app specifc
