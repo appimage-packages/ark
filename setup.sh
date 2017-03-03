@@ -18,9 +18,11 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 export PATH=/opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
-export PYTHONPATH="${PYTHONPATH}/opt/usr/lib/python3.5/site-packages"
+export PYTHONPATH=/opt/usr/lib/python3.5/site-packages:$PYTHONPATH
 export WORKSPACE=`pwd`
 echo $WORKSPACE
 pip3 install -U Sphinx
 pip3 install pyqt5
+pip install -U Sphinx
+pip install pyqt5
 cd /in/ && rspec appimage-template/spec/recipe_rspec.rb --fail-fast
