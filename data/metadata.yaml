@@ -24,8 +24,8 @@ dependencies:
         buildoptions: '--prefix=/opt/usr'
       depname: libarchive
       source:
-        type: tar
-        url: 'http://www.libarchive.org/downloads/libarchive-3.2.0.tar.gz'
+        type: git
+        url: 'https://github.com/libarchive/libarchive'
   - rar:
       build:
         buildsystem: custom
