@@ -26,6 +26,7 @@ dependencies:
       source:
         type: git
         url: 'https://github.com/libarchive/libarchive'
+        branch: master
   - rar:
       build:
         buildsystem: custom
