@@ -1,0 +1,18 @@
+name: ark
+binary: ark
+packages:
+  - lrzip
+  - unrar-free
+  - p7zip-full
+  - zip
+  - unzip
+  - unar
+  #app specifc
+build_kf5: false
+frameworks: false
+deps_on_kf5: false
+type: git
+url: http://anongit.kde.org/ark
+buildsystem: cmake
+buildoptions: '-DCMAKE_INSTALL_PREFIX:PATH=/app.Dir/usr -DKDE_INSTALL_SYSCONFDIR=/app.Dir/etc -DBUILD_TESTING=OFF'
+dependencies: false
