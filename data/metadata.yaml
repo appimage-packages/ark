@@ -7,6 +7,7 @@ packages:
   - zip
   - unzip
   - unar
+  - libarchive-dev
   #app specifc
 build_kf5: false
 frameworks: false
